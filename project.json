@@ -1,0 +1,23 @@
+{
+  "overview": "FloatTime is a modern e-commerce landing page for 3D LED floating clocks. Customers can browse the product, choose from four color options, and check out with Apple Pay, Google Pay, or card. After purchase, they can track their order status. A contact page provides email and social media links for support.",
+  "features": [
+    "Hero landing page with futuristic 3D LED clock showcase",
+    "Color selector: White, Blue, Red, and Green options",
+    "$12.99 pricing with free shipping badge",
+    "Stripe checkout supporting Apple Pay, Google Pay, and card",
+    "Order tracking page with real-time status",
+    "Contact page with email and TikTok links",
+    "Dark theme with blue and white accents",
+    "Fully responsive for mobile and desktop"
+  ],
+  "category": "e-commerce",
+  "tags": [
+    "ecommerce",
+    "product-landing",
+    "led-clock",
+    "stripe",
+    "order-tracking",
+    "dark-theme"
+  ],
+  "last_updated": "2026-05-02T23:17:14.502Z"
+}

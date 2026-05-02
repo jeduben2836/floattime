@@ -1,0 +1,57 @@
+// Version: 1.0.0
+type Color__722236831 = {#Blue; #Green; #Red; #White};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Int__270357528 = Int__616954475;
+type Int__616954475 = Int;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OrderId__521176343 = Text;
+type OrderStatus__272730104 = {#Delivered; #Pending; #Shipped};
+type Order__141779993 =
+  {
+    color : Color__722236831;
+    createdAt : Time__900049286;
+    customerEmail : Text;
+    orderId : OrderId__521176343;
+    shippingAddress : ShippingAddress__910423011;
+    status : OrderStatus__272730104;
+    stripePaymentIntentId : Text
+  };
+type ShippingAddress__910423011 =
+  {
+    city : Text;
+    country : Text;
+    line1 : Text;
+    line2 : Text;
+    name : Text;
+    postalCode : Text;
+    state : Text
+  };
+type StripeConfiguration__87721349 =
+  {allowedCountries : [Text]; secretKey : Text};
+type Time__796480547 = Int__270357528;
+type Time__900049286 = Time__796480547;
+type UserRole__1073662873 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1073662873>
+    };
+  stable orders :
+    {
+      var root : Node__46230540<OrderId__521176343, Order__141779993>;
+      var size : Nat__490723111
+    };
+  stable var stripeConfig : ?StripeConfiguration__87721349
+};

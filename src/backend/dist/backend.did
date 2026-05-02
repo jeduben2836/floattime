@@ -1,0 +1,101 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Time = int;
+type StripeSessionStatus = 
+ variant {
+   completed: record {
+                response: text;
+                userPrincipal: opt text;
+              };
+   failed: record {error: text;};
+ };
+type StripeConfiguration = 
+ record {
+   allowedCountries: vec text;
+   secretKey: text;
+ };
+type ShippingAddress = 
+ record {
+   city: text;
+   country: text;
+   line1: text;
+   line2: text;
+   name: text;
+   postalCode: text;
+   state: text;
+ };
+type OrderStatus = 
+ variant {
+   Delivered;
+   Pending;
+   Shipped;
+ };
+type OrderId = text;
+type Order = 
+ record {
+   color: Color;
+   createdAt: Time;
+   customerEmail: text;
+   orderId: OrderId;
+   shippingAddress: ShippingAddress;
+   status: OrderStatus;
+   stripePaymentIntentId: text;
+ };
+type CreateOrderRequest = 
+ record {
+   color: Color;
+   customerEmail: text;
+   shippingAddress: ShippingAddress;
+   stripePaymentIntentId: text;
+ };
+type Color = 
+ variant {
+   Blue;
+   Green;
+   Red;
+   White;
+ };
+service : {
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  /// Create a Stripe checkout session for a FloatTime clock ($12.99 USD).
+  createCheckoutSession: (color: Color, successUrl: text, cancelUrl: 
+   text) -> (text);
+  createOrder: (req: CreateOrderRequest) -> (Order);
+  getCallerUserRole: () -> (UserRole) query;
+  getOrderById: (orderId: OrderId) -> (opt Order) query;
+  /// Check Stripe session payment status.
+  getStripeSessionStatus: (sessionId: text) -> (StripeSessionStatus);
+  isCallerAdmin: () -> (bool) query;
+  isStripeConfigured: () -> (bool) query;
+  listOrders: () -> (vec Order);
+  setStripeConfiguration: (config: StripeConfiguration) -> ();
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateOrderStatus: (orderId: OrderId, status: OrderStatus) -> (bool);
+}
